@@ -1,0 +1,203 @@
+/**
+ * Botoes Plugin Styles - GLPI 11 / 12
+ */
+
+/* =========================================================================
+ * Barra de ações da timeline: botões nativos + botões do plugin em uma linha
+ * ========================================================================= */
+
+/* A própria barra é o container de referência: os rótulos se adaptam à largura
+   disponível (painel normal, expandido ou tela menor) */
+#itil-footer .timeline-buttons {
+    container-type: inline-size;
+    container-name: botoes-bar;
+    flex-wrap: nowrap;
+    align-items: center;
+    min-width: 0;
+}
+
+/* Layout "dividido" do core usa flex-wrap: wrap, que quebrava a linha */
+#itil-footer .timeline-buttons .main-actions {
+    flex-wrap: nowrap !important;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.3rem;
+    margin-right: 0.3rem !important;
+}
+
+/* Lista onde o core coloca as ações de plugins */
+#itil-footer ul.legacy-timeline-actions {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    top: 0;
+}
+
+#itil-footer ul.legacy-timeline-actions li.botoes-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0;
+    margin: 0;
+}
+
+/* Tamanho uniforme para todos os botões da barra */
+#itil-footer .timeline-buttons .main-actions > .btn,
+#itil-footer .timeline-buttons .botoes-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    height: 2rem;
+    min-height: 0;
+    padding: 0 0.6rem;
+    font-size: 0.8125rem;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+#itil-footer .timeline-buttons .main-actions > .btn i,
+#itil-footer .timeline-buttons .botoes-btn i {
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+}
+
+/* O negrito no hover do core altera a largura e faz a linha "pular" */
+#itil-footer .timeline-buttons .answer-action:hover {
+    font-weight: inherit;
+}
+
+/* Divisor visual entre os botões nativos e os do plugin */
+#itil-footer .timeline-buttons .main-actions + ul.legacy-timeline-actions li.botoes-actions {
+    padding-left: 0.3rem;
+    border-left: 1px solid var(--tblr-border-color, #e6e7e9);
+}
+
+/* Espaço médio: botões do plugin só com ícone */
+@container botoes-bar (max-width: 1000px) {
+    #itil-footer .botoes-btn span {
+        display: none;
+    }
+    #itil-footer .botoes-btn {
+        padding: 0 0.5rem;
+    }
+}
+
+/* Espaço reduzido: todos os botões só com ícone */
+@container botoes-bar (max-width: 720px) {
+    #itil-footer .main-actions > .btn > span:not(.visually-hidden) {
+        display: none;
+    }
+    #itil-footer .main-actions > .btn {
+        padding: 0 0.5rem;
+    }
+}
+
+.botoes-observer-current {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    min-height: 2.25rem;
+    align-items: center;
+    padding: 0.4rem;
+    border: 1px solid var(--tblr-border-color, #e6e7e9);
+    border-radius: var(--tblr-border-radius, 4px);
+}
+
+.botoes-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.85rem;
+    color: var(--tblr-primary, #206bc4);
+    background: rgba(32, 107, 196, 0.1);
+    border: 1px solid rgba(32, 107, 196, 0.25);
+    border-radius: 4px;
+}
+
+.botoes-badge-remove {
+    border: 0;
+    background: none;
+    padding: 0;
+    color: inherit;
+    opacity: 0.7;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.botoes-badge-remove:hover {
+    opacity: 1;
+    color: var(--tblr-danger, #d63939);
+}
+
+/* =========================================================================
+ * Campos Adicionais / Dados do Cliente
+ * ========================================================================= */
+
+/* Cadastro: listas longas rolam dentro do cartão */
+.botoes-cd-lista {
+    max-height: 18rem;
+    overflow-y: auto;
+}
+
+.botoes-cd-item .btn-icon {
+    flex-shrink: 0;
+}
+
+/* Campos Adicionais logo abaixo da Entidade no acordeão principal
+   (Chamado / Problema / Mudança). O corpo do acordeão é flex (.row): a ordem
+   visual fica Entidade -> campos do plugin -> demais campos nativos, sem depender
+   do momento em que o conteúdo da aba é carregado por ajax.
+   Entidade: item novo = data-testid do GLPI; item existente = badge com link. */
+#item-main > .accordion-body > [data-testid="form-field-entities_id"] ~ .plugin-botoes-campo,
+#item-main > .accordion-body > .form-field:has(.glpi-badge a[href*="entity.form.php"]) ~ .plugin-botoes-campo {
+    order: 1;
+}
+
+#item-main > .accordion-body > [data-testid="form-field-entities_id"] ~ :not(.plugin-botoes-campo),
+#item-main > .accordion-body > .form-field:has(.glpi-badge a[href*="entity.form.php"]) ~ :not(.plugin-botoes-campo) {
+    order: 2;
+}
+/* =========================================================================
+ * Aviso "Público ou Privado?" ao enviar acompanhamento
+ * ========================================================================= */
+.botoes-priv-pergunta { font-size: 13px; color: #495057; margin: 0 0 12px; }
+.botoes-priv-pergunta i { margin-right: 4px; }
+.botoes-priv-escolhas { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.botoes-priv-escolha {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+    padding: 12px 14px; border: 1px solid #dee2e6; border-radius: 6px;
+    background: #fff; text-align: left; cursor: pointer; transition: all 0.15s ease-in-out;
+}
+.botoes-priv-escolha i { font-size: 20px; }
+.botoes-priv-escolha strong { font-size: 14px; color: #333; }
+.botoes-priv-escolha span { font-size: 12px; color: #6c757d; }
+.botoes-priv-publico i { color: #198754; }
+.botoes-priv-privado i { color: #6c757d; }
+.botoes-priv-publico:hover, .botoes-priv-publico:focus-visible { background: rgba(25, 135, 84, 0.08); border-color: rgba(25, 135, 84, 0.4); outline: none; }
+.botoes-priv-privado:hover, .botoes-priv-privado:focus-visible { background: rgba(108, 117, 125, 0.1); border-color: rgba(108, 117, 125, 0.4); outline: none; }
+.botoes-priv-atual { border-color: #e0b830; box-shadow: 0 0 0 0.2rem rgba(240, 201, 70, 0.25); }
+@media (max-width: 576px) { .botoes-priv-escolhas { grid-template-columns: 1fr; } }
+
+/* =========================================================================
+ * Aba "Visualizadores" no chamado
+ * ========================================================================= */
+.botoes-visualizadores { padding: 8px 4px; font-size: 13px; color: #333; }
+.botoes-vis-resumo { font-size: 12px; color: #6c757d; margin: 0 0 8px; }
+.botoes-vis-resumo i, .botoes-vis-vazio i { margin-right: 4px; }
+.botoes-vis-vazio { font-size: 12px; color: #999; padding: 12px 0; margin: 0; }
+.botoes-vis-tabela { font-size: 12px; margin: 0; border: 1px solid #dee2e6; }
+.botoes-vis-tabela thead th { background: #f8f9fa; font-size: 11px; font-weight: 600; text-transform: uppercase; color: #6c757d; padding: 8px 10px; }
+.botoes-vis-tabela td { padding: 7px 10px; vertical-align: middle; }
+.botoes-vis-tabela tr.botoes-vis-eu td { background: rgba(13, 110, 253, 0.06); }
+.botoes-vis-tabela tr.botoes-vis-criador td { background: rgba(25, 135, 84, 0.06); }
+.botoes-vis-selo { display: inline-block; font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 10px; margin-left: 6px; border: 1px solid transparent; }
+.botoes-vis-selo-criador { background: rgba(25, 135, 84, 0.08); color: #198754; border-color: rgba(25, 135, 84, 0.25); }
+.botoes-vis-selo-eu { background: rgba(13, 110, 253, 0.08); color: #0a58ca; border-color: rgba(13, 110, 253, 0.25); }
+
+/* Configuração */
+.botoes-opcao { margin-bottom: 10px; }
+.botoes-opcao .form-check-label { font-weight: 600; cursor: pointer; }
