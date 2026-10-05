@@ -11,7 +11,7 @@
 
 use Glpi\Plugin\Hooks;
 
-define('PLUGIN_BOTOES_VERSION', '1.7.0');
+define('PLUGIN_BOTOES_VERSION', '1.8.0');
 define('PLUGIN_BOTOES_MIN_GLPI', '11.0.0');
 define('PLUGIN_BOTOES_MAX_GLPI', '13.0.0');
 
@@ -40,6 +40,16 @@ function plugin_init_botoes()
         }
         // Aba "Visualizadores" no chamado
         Plugin::registerClass('PluginBotoesVisualizadores', ['addtabon' => ['Ticket']]);
+
+        // Status e atores somente leitura para os perfis que usam os botões (servidor + tela)
+        if (plugin_botoes_opcao('somenteleitura')) {
+            foreach (plugin_botoes_supported_itemtypes() as $itemtype) {
+                $PLUGIN_HOOKS[Hooks::PRE_ITEM_UPDATE]['botoes'][$itemtype] = ['PluginBotoesSomenteleitura', 'antesAtualizar'];
+            }
+            if (Session::getLoginUserID() && plugin_botoes_current_profile_allowed()) {
+                $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['botoes'][] = 'js/somenteleitura.js';
+            }
+        }
     }
 
     // Único ponto de renderização dos botões: barra inferior da timeline (Chamado, Problema, Mudança)
@@ -132,11 +142,12 @@ function plugin_botoes_current_profile_allowed(): bool
 
 /**
  * Opções liga/desliga do plugin (ligadas por padrão).
- * privacidade: aviso "Público ou Privado?" ao enviar acompanhamento; visualizadores: aba no chamado.
+ * privacidade: aviso "Público ou Privado?" ao enviar acompanhamento; visualizadores: aba no chamado;
+ * somenteleitura: status e atores somente leitura para os perfis que usam os botões.
  */
 function plugin_botoes_opcoes_padrao(): array
 {
-    return ['privacidade' => '1', 'visualizadores' => '1'];
+    return ['privacidade' => '1', 'visualizadores' => '1', 'somenteleitura' => '1'];
 }
 
 function plugin_botoes_opcao(string $nome): bool

@@ -82,6 +82,7 @@ $entidade_dropdown = Entity::dropdown([
 $descricoes_opcoes = [
     'privacidade'    => ['Perguntar se o acompanhamento é público ou privado', 'Ao enviar um acompanhamento novo, abre um aviso para escolher: Público (o requerente vê) ou Privado (só a equipe técnica). Aparece só para quem pode marcar acompanhamentos como privados.'],
     'visualizadores' => ['Aba "Visualizadores" no chamado', 'Registra quem abriu cada chamado, quando foi a primeira e a última vez e quantas vezes. O criador conta desde a abertura.'],
+    'somenteleitura' => ['Status e atores somente leitura', 'Nos Chamados, Problemas e Mudanças já abertos, os campos Status, Requerente, Observador e Atribuído ficam somente leitura para os perfis que usam os botões (acima). Vale no formulário, no kanban e na ação em massa; as mudanças passam pelos botões Aceitar, Pendente e Grupo Observador. Soluções, acompanhamentos, aprovações, regras e ações automáticas continuam funcionando, e a abertura de itens novos não muda.'],
 ];
 $linhas_opcoes = '';
 foreach ($descricoes_opcoes as $nome => [$rotulo_op, $descricao_op]) {

@@ -201,3 +201,16 @@
 /* Configuração */
 .botoes-opcao { margin-bottom: 10px; }
 .botoes-opcao .form-check-label { font-weight: 600; cursor: pointer; }
+/* =========================================================================
+ * Status e atores somente leitura
+ * ========================================================================= */
+.select2-container.botoes-somente-leitura .select2-selection {
+    background-color: #f0f0f0 !important;
+    border-color: #e0e0e0 !important;
+    cursor: not-allowed !important;
+}
+.select2-container.botoes-somente-leitura .select2-selection__choice__remove,
+.select2-container.botoes-somente-leitura .select2-search,
+.select2-container.botoes-somente-leitura .select2-selection__arrow { display: none !important; }
+.select2-container.botoes-somente-leitura .select2-selection__rendered { color: #495057 !important; }
+.botoes-oculto { display: none !important; }
